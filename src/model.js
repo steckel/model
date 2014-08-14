@@ -1,3 +1,5 @@
+/* jshint esnext: true, strict: true */
+
 var Struct = require('struct'),
     enforceNewKeyword = require('./utils').enforceNewKeyword,
     enforceSubClassing = require('./utils').enforceSubClassing;

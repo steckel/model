@@ -219,6 +219,58 @@ describe('Model (implmentation)', function() {
       var person = new Person(datum);
       expect(person.toJSON()).to.eql(expectation);
     })
+
+    describe("with a repeated non-primitive", function() {
+      var week;
+
+      var Week = function($__super) {
+        function Week() {
+          var $__1 = $__Object$getPrototypeOf(Week.prototype);
+
+          if ($__1 !== null)
+            $__1.constructor.apply(this, arguments);
+        }
+
+        Week.__proto__ = ($__super !== null ? $__super : Function.prototype);
+        Week.prototype = $__Object$create(($__super !== null ? $__super.prototype : null));
+
+        $__Object$defineProperty(Week.prototype, "constructor", {
+          value: Week
+        });
+
+        $__Object$defineProperty(Week.prototype, "schema", {
+          get: function() {
+            return {
+              days: attr(Date, {repeated: true})
+            };
+          },
+
+          enumerable: false
+        });
+
+        return Week;
+      }(Model);
+
+      before(function() {
+        week = new Week({days: [1,2,3,4,5,6,7].map(function() {
+          return new Date("1970-01-01T00:00:00.000Z");
+        })});
+      });
+
+      it("calls toJSON on array's content", function() {
+        expect(week.toJSON()).to.deep.equal({
+          days: [
+            "1970-01-01T00:00:00.000Z",
+            "1970-01-01T00:00:00.000Z",
+            "1970-01-01T00:00:00.000Z",
+            "1970-01-01T00:00:00.000Z",
+            "1970-01-01T00:00:00.000Z",
+            "1970-01-01T00:00:00.000Z",
+            "1970-01-01T00:00:00.000Z"
+            ]
+        });
+      });
+    });
   });
 
   describe(".findAll", function() {

@@ -171,6 +171,36 @@ describe('Model (implmentation)', () => {
       var person = new Person(datum);
       expect(person.toJSON()).to.eql(expectation);
     })
+
+    describe("with a repeated non-primitive", () => {
+      var week;
+
+      class Week extends Model {
+        get schema() {
+          return {
+            days: attr(Date, {repeated: true})
+          };
+        };
+      }
+
+      before(() => {
+        week = new Week({days: [1,2,3,4,5,6,7].map(() => new Date("1970-01-01T00:00:00.000Z"))});
+      });
+
+      it("calls toJSON on array's content", () => {
+        expect(week.toJSON()).to.deep.equal({
+          days: [
+            "1970-01-01T00:00:00.000Z",
+            "1970-01-01T00:00:00.000Z",
+            "1970-01-01T00:00:00.000Z",
+            "1970-01-01T00:00:00.000Z",
+            "1970-01-01T00:00:00.000Z",
+            "1970-01-01T00:00:00.000Z",
+            "1970-01-01T00:00:00.000Z"
+            ]
+        });
+      });
+    });
   });
 
   describe(".findAll", () => {
