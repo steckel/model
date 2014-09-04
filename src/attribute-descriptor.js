@@ -90,4 +90,4 @@ Object.defineProperty(AttributeDescriptor, 'DEFAULTS', {
   }
 });
 
-module.exports = AttributeDescriptor
+module.exports = AttributeDescriptor;
